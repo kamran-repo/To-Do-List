@@ -107,7 +107,7 @@ function renderTasks(filter = currentFilter, searchText = "") {
         return;
     }
 
-    filteredTasks.forEach((task, index) => {
+    filteredTasks.forEach((task) => {
 
         const li = document.createElement("li");
 
@@ -178,7 +178,7 @@ function renderTasks(filter = currentFilter, searchText = "") {
 
         li.querySelector(".delete-btn").addEventListener("click", () => {
 
-            tasks.splice(index, 1);
+            tasks = tasks.filter(t => t !== task);
 
             saveTasks();
 
@@ -284,13 +284,16 @@ document.querySelectorAll(".filters button").forEach(button => {
    SEARCH TASKS
 ========================= */
 
-searchInput.addEventListener("input", () => {
+if (searchInput) {
 
-    renderTasks(
-        currentFilter,
-        searchInput.value
-    );
-});
+    searchInput.addEventListener("input", () => {
+
+        renderTasks(
+            currentFilter,
+            searchInput.value
+        );
+    });
+}
 
 /* =========================
    DARK MODE
