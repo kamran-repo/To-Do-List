@@ -344,3 +344,47 @@ li.medium {
 li.low {
     border-left-color: #2d6a4f;
 }
+/* Authentication Pages */
+
+.auth-container {
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.auth-container input {
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.auth-container button {
+    padding: 14px;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.auth-container p {
+    text-align: center;
+}
+
+.auth-container a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* Logout Button */
+
+#logoutBtn {
+    margin-left: 10px;
+    padding: 10px 14px;
+    border: none;
+    background: #dc3545;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}

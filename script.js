@@ -1,3 +1,12 @@
+/* =========================
+   AUTH CHECK
+========================= */
+
+if (localStorage.getItem("loggedIn") !== "true") {
+
+    window.location.href = "login.html";
+}
+const logoutBtn = document.getElementById("logoutBtn");
 const taskInput = document.getElementById("taskInput");
 const dueDateInput = document.getElementById("dueDate");
 const categoryInput = document.getElementById("category");
@@ -313,6 +322,16 @@ taskInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
         addTaskBtn.click();
     }
+});
+/* =========================
+   LOGOUT
+========================= */
+
+logoutBtn.addEventListener("click", () => {
+
+    localStorage.removeItem("loggedIn");
+
+    window.location.href = "login.html";
 });
 
 /* =========================
