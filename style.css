@@ -279,3 +279,41 @@ li.completed span {
         font-size: 24px;
     }
 }
+/* Priority Labels */
+
+.priority {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    width: fit-content;
+}
+
+.priority-high {
+    background: #ffdddd;
+    color: #d90429;
+}
+
+.priority-medium {
+    background: #fff4cc;
+    color: #ff9800;
+}
+
+.priority-low {
+    background: #d8f3dc;
+    color: #2d6a4f;
+}
+
+/* Priority Border Colors */
+
+li.high {
+    border-left-color: #d90429;
+}
+
+li.medium {
+    border-left-color: #ff9800;
+}
+
+li.low {
+    border-left-color: #2d6a4f;
+}
