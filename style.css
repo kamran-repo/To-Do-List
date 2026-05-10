@@ -79,6 +79,33 @@ body {
 .input-section select:focus {
     border-color: #007bff;
 }
+/* Search Section */
+
+.search-section {
+    margin-bottom: 20px;
+}
+
+.search-section input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.search-section input:focus {
+    border-color: #007bff;
+}
+
+/* Dark Mode Search */
+
+.dark-mode .search-section input {
+    background: #2d2d2d;
+    color: white;
+    border: 1px solid #555;
+}
 
 #addTaskBtn {
     padding: 14px;

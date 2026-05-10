@@ -8,7 +8,11 @@ const taskList = document.getElementById("taskList");
 
 const themeToggle = document.getElementById("themeToggle");
 
+const searchInput = document.getElementById("searchInput");
+
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+let currentFilter = "all";
 
 /* =========================
    NOTIFICATION PERMISSION
@@ -41,25 +45,67 @@ function showNotification(task) {
 }
 
 /* =========================
+   PRIORITY EMOJI
+========================= */
+
+function getPriorityEmoji(priority) {
+
+    switch(priority) {
+
+        case "High":
+            return "🔴";
+
+        case "Medium":
+            return "🟡";
+
+        case "Low":
+            return "🟢";
+
+        default:
+            return "";
+    }
+}
+
+/* =========================
    RENDER TASKS
 ========================= */
 
-function renderTasks(filter = "all") {
+function renderTasks(filter = currentFilter, searchText = "") {
+
+    currentFilter = filter;
 
     taskList.innerHTML = "";
 
     let filteredTasks = tasks.filter(task => {
 
-        if (filter === "completed") {
-            return task.completed;
-        }
+        const matchesFilter = (
 
-        if (filter === "pending") {
-            return !task.completed;
-        }
+            (filter === "completed" && task.completed) ||
 
-        return true;
+            (filter === "pending" && !task.completed) ||
+
+            (filter === "all")
+        );
+
+        const matchesSearch = task.text
+            .toLowerCase()
+            .includes(searchText.toLowerCase());
+
+        return matchesFilter && matchesSearch;
     });
+
+    /* No Tasks Message */
+
+    if (filteredTasks.length === 0) {
+
+        taskList.innerHTML = `
+            <p style="text-align:center; padding:20px;">
+                No tasks found
+            </p>
+        `;
+
+        return;
+    }
 
     filteredTasks.forEach((task, index) => {
 
@@ -90,7 +136,8 @@ function renderTasks(filter = "all") {
                 </small>
 
                 <small class="priority priority-${task.priority.toLowerCase()}">
-                    ${getPriorityEmoji(task.priority)} ${task.priority} Priority
+                    ${getPriorityEmoji(task.priority)}
+                    ${task.priority} Priority
                 </small>
 
             </div>
@@ -122,7 +169,7 @@ function renderTasks(filter = "all") {
 
             saveTasks();
 
-            renderTasks(filter);
+            renderTasks(currentFilter, searchInput.value);
         });
 
         /* =========================
@@ -135,7 +182,7 @@ function renderTasks(filter = "all") {
 
             saveTasks();
 
-            renderTasks(filter);
+            renderTasks(currentFilter, searchInput.value);
         });
 
         /* =========================
@@ -144,15 +191,21 @@ function renderTasks(filter = "all") {
 
         li.querySelector(".edit-btn").addEventListener("click", () => {
 
-            const updatedText = prompt("Edit task:", task.text);
+            const updatedText = prompt(
+                "Edit task:",
+                task.text
+            );
 
-            if (updatedText !== null && updatedText.trim() !== "") {
+            if (
+                updatedText !== null &&
+                updatedText.trim() !== ""
+            ) {
 
                 task.text = updatedText;
 
                 saveTasks();
 
-                renderTasks(filter);
+                renderTasks(currentFilter, searchInput.value);
             }
         });
 
@@ -162,34 +215,17 @@ function renderTasks(filter = "all") {
            DUE DATE NOTIFICATION
         ========================= */
 
-        const today = new Date().toISOString().split("T")[0];
+        const today = new Date()
+            .toISOString()
+            .split("T")[0];
 
-        if (task.dueDate === today && !task.completed) {
+        if (
+            task.dueDate === today &&
+            !task.completed
+        ) {
             showNotification(task);
         }
     });
-}
-
-/* =========================
-   PRIORITY EMOJI
-========================= */
-
-function getPriorityEmoji(priority) {
-
-    switch(priority) {
-
-        case "High":
-            return "🔴";
-
-        case "Medium":
-            return "🟡";
-
-        case "Low":
-            return "🟢";
-
-        default:
-            return "";
-    }
 }
 
 /* =========================
@@ -220,7 +256,7 @@ addTaskBtn.addEventListener("click", () => {
 
     saveTasks();
 
-    renderTasks();
+    renderTasks(currentFilter, searchInput.value);
 
     /* Clear Inputs */
 
@@ -236,10 +272,25 @@ document.querySelectorAll(".filters button").forEach(button => {
 
     button.addEventListener("click", () => {
 
-        const filter = button.dataset.filter;
+        currentFilter = button.dataset.filter;
 
-        renderTasks(filter);
+        renderTasks(
+            currentFilter,
+            searchInput.value
+        );
     });
+});
+
+/* =========================
+   SEARCH TASKS
+========================= */
+
+searchInput.addEventListener("input", () => {
+
+    renderTasks(
+        currentFilter,
+        searchInput.value
+    );
 });
 
 /* =========================
