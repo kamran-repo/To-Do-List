@@ -272,12 +272,11 @@ document.querySelectorAll(".filters button").forEach(button => {
 
     button.addEventListener("click", () => {
 
-        currentFilter = button.dataset.filter;
+        const filter = button.dataset.filter;
 
-        renderTasks(
-            currentFilter,
-            searchInput.value
-        );
+        const searchText = searchInput.value;
+
+        renderTasks(filter, searchText);
     });
 });
 
